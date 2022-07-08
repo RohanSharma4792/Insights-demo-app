@@ -42,78 +42,62 @@ public class login extends AppCompatActivity {
             public void onClick(View view) {
                 String email = editTextTextEmailAddress.getText().toString();
                 String password = editTextTextPassword.getText().toString();
-                if (email.isEmpty()){
-                    editTextTextEmailAddress.setError("Enter the email address");
+
+
+                if (!email.isEmpty()) {
+                    editTextTextEmailAddress.setError(null);
+                    if (!password.isEmpty()) {
+                        editTextTextPassword.setError(null);
+
+//                        final String named = editTextTextEmailAddress.getText().toString();
+//                        final String passed = editTextTextPassword.getText().toString();
+//
+//
+//                        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+//                        DatabaseReference databaseReference = firebaseDatabase.getReference("data");
+//
+//                        Query checking = databaseReference.orderByChild("name").equalTo(named);
+//
+//                        checking.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                                if (snapshot.exists()) {
+//                                    editTextTextEmailAddress.setError(null);
+//                                    String pass = snapshot.child(named).child("password").getValue(String.class);
+//                                    assert pass != null;
+//                                    if (pass.equals(passed)) {
+//                                        editTextTextEmailAddress.setError(null);
+//
+//                                        Toast.makeText(getApplicationContext(), "login successful", Toast.LENGTH_SHORT).show();
+//                                        Intent intent = new Intent(getApplicationContext(), dashboard.class);
+//                                        startActivity(intent);
+//                                        finish();
+                                    } else {
+                                        editTextTextPassword.setError("wrong password");
+                                    }
+                                } else {
+                                    editTextTextEmailAddress.setError("invalid email");
+                                }
+
+
+                            }
+
+//
+//
+//
+
+                    });
+                        signup.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                        Intent intent = new Intent(getApplicationContext(), signup.class);
+                                        startActivity(intent);
+                            }
+                        });
 
                 }
-                if (password.isEmpty()){
-                    editTextTextPassword.setError("Enter the password");
-                }
-
-                final String named = editTextTextEmailAddress.getText().toString();
-                final String passed=editTextTextPassword.getText().toString();
-
-
-                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                DatabaseReference databaseReference = firebaseDatabase.getReference("data");
-
-                Query checking = databaseReference.orderByChild("name").equalTo(named);
-
-                checking.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        if (snapshot.exists()){
-                             editTextTextEmailAddress.setError(null);
-                             String pass = snapshot.child(named).child("password").getValue(String.class);
-                            assert pass != null;
-                            if (pass.equals(passed)){
-                                 editTextTextEmailAddress.setError(null);
-
-                                 Toast.makeText(getApplicationContext(), "login successful", Toast.LENGTH_SHORT).show();
-                                 Intent intent = new Intent(getApplicationContext(), dashboard.class);
-                                 startActivity(intent);
-                                 finish();
-                             }
-                             else{
-                                 editTextTextPassword.setError("wrong password");
-                             }
-
-
-                        }
-                        else{
-                            editTextTextEmailAddress.setError("invalid email");
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-
-
 
             }
-        });
-
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), com.example.insightsapp.signup.class);
-                startActivity(intent);
-            }
-        });
-
-    }
-
-
-
-}
-
-
-
-
 
 

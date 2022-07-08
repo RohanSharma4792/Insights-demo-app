@@ -36,70 +36,95 @@ public class signup extends AppCompatActivity {
         editTextTextPassword4 = findViewById(R.id.editTextTextPassword4);
         editTextTextPassword5 = findViewById(R.id.editTextTextPassword5);
         register = findViewById(R.id.register);
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = editTextTextPersonName.getText().toString();
-                String phone = editTextPhone2.getText().toString();
-                String email = editTextTextEmailAddress3.getText().toString();
-                String password = editTextTextPassword4.getText().toString();
-                String cpassword = editTextTextPassword5.getText().toString();
 
-                if (name.isEmpty()){
-                    editTextTextPersonName.setError("enter the name");
-                }
-                if (phone.isEmpty()){
-                    editTextPhone2.setError("enter the mobile number");
-                }
-                if (email.isEmpty()){
-                    editTextTextEmailAddress3.setError("enter the email");
-                }
-                if (!email.matches("\\b[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b")){
 
+
+
+
+
+            register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String name = editTextTextPersonName.getText().toString();
+                    String phone = editTextPhone2.getText().toString();
+                    String email = editTextTextEmailAddress3.getText().toString();
+                    String password = editTextTextPassword4.getText().toString();
+                    String cpassword = editTextTextPassword5.getText().toString();
+
+
+
+                    if (!name.isEmpty()){
+                        editTextTextPersonName.setError(null);
+                        if (!phone.isEmpty()){
+                            editTextPhone2.setError(null);
+                            if (!email.isEmpty()){
+                                editTextTextEmailAddress3.setError(null);
+                                if (!password.isEmpty()){
+                                    editTextTextPassword4.setError(null);
+                                    if (!cpassword.isEmpty()){
+                                        editTextTextPassword5.setError(null);
+
+                                        firebaseDatabase = FirebaseDatabase.getInstance();
+                                        reference = firebaseDatabase.getReference("data");
+
+                                        String name_s = editTextTextPersonName.getText().toString();
+                                        String phone_S = editTextPhone2.getText().toString();
+                                        String email_s = editTextTextEmailAddress3.getText().toString();
+                                        String password_s = editTextTextPassword4.getText().toString();
+
+                                        storingdata storingdatas = new storingdata(name_s, phone_S, email_s, password_s);
+                                        reference.child(name_s).setValue(storingdatas);
+
+                                        Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), otp.class);
+                                        startActivity(intent);
+
+
+
+
+                                    }else {
+                                        editTextTextPassword5.setError("confirm your password");
+                                    }
+                                }else {
+                                    editTextTextPassword4.setError("enter the password");
+                                }
+                            }else {
+                                editTextTextEmailAddress3.setError("enter the email");
+                            }
+                        }else{
+                            editTextPhone2.setError("enter the phone no.");
+                        }
+
+                    }
+                    else {
+                        editTextTextPersonName.setError("enter the name");
+                    }
                 }
-                else{
-                    editTextTextEmailAddress3.setError("invalid email");
-                }
-                if (password.isEmpty()){
-                    editTextTextPassword4.setError("enter the password");
-                }
-                if (!cpassword.isEmpty()){
-                    editTextTextPassword5.setError("enter the password");
-                }
+            });
+
+
+
+
+
+
 //                if (password!=cpassword){
 //                    editTextTextPassword5.setError("enter the password correctly");
 //                }
 //                else{
 
-                    firebaseDatabase = FirebaseDatabase.getInstance();
-                    reference = firebaseDatabase.getReference("data");
 
-                    String name_s = editTextTextPersonName.getText().toString();
-                    String phone_S = editTextPhone2.getText().toString();
-                    String email_s = editTextTextEmailAddress3.getText().toString();
-                    String password_s = editTextTextPassword4.getText().toString();
-
-                    storingdata storingdatas = new storingdata(name_s, phone_S, email_s, password_s);
-                    reference.child(name_s).setValue(storingdatas);
-
-                    Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), login.class);
-                    startActivity(intent);
 
             }
-        });
-    }
-
-
-
-
-    public void registerbutton(View view) {
-            Intent intent = new Intent(getApplicationContext(), login.class);
-            startActivity(intent);
-        }
-
 
     }
+
+
+
+
+
+
+
+
 
 
 
