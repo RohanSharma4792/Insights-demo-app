@@ -48,14 +48,23 @@ public class signup extends AppCompatActivity {
                 if (email.isEmpty()){
                     editTextTextEmailAddress3.setError("enter the email");
                 }
+                if (!email.matches("\\b[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b")){
+
+                }
+                else{
+                    editTextTextEmailAddress3.setError("invalid email");
+                }
                 if (password.isEmpty()){
                     editTextTextPassword4.setError("enter the password");
                 }
                 if (cpassword.isEmpty()){
                     editTextTextPassword5.setError("enter the password");
                 }
-                if (password != cpassword){
+                if (password!=cpassword){
                     editTextTextPassword5.setError("enter the password correctly");
+                }
+                else{
+
                 }
             }
         });
