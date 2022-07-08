@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#C8DFC9"
-    tools:context=".MainActivity">
+    tools:context=".login">
 
     <TextView
         android:id="@+id/textView2"
@@ -85,6 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword4" />
 
     <Button
+        android:onClick="registerbutton"
         android:id="@+id/register"
         android:layout_width="153dp"
         android:layout_height="42dp"
