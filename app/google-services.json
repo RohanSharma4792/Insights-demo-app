@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "82753506669",
+    "project_id": "insights-a1518",
+    "storage_bucket": "insights-a1518.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82753506669:android:01610350f906159fa39e64",
+        "android_client_info": {
+          "package_name": "com.example.insightsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "82753506669-7fiqjrcn4sff7g84vhft1m8mflq2kd22.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5RikqOhBkhyq6ESn0d-7f9FPTjE-YoMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "82753506669-7fiqjrcn4sff7g84vhft1m8mflq2kd22.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
