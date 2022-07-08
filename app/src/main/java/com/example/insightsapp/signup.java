@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class signup extends AppCompatActivity {
@@ -18,6 +22,8 @@ public class signup extends AppCompatActivity {
     EditText editTextTextPassword4;
     EditText editTextTextPassword5;
     Button register;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference reference;
 
 
     @Override
@@ -57,15 +63,29 @@ public class signup extends AppCompatActivity {
                 if (password.isEmpty()){
                     editTextTextPassword4.setError("enter the password");
                 }
-                if (cpassword.isEmpty()){
+                if (!cpassword.isEmpty()){
                     editTextTextPassword5.setError("enter the password");
                 }
-                if (password!=cpassword){
-                    editTextTextPassword5.setError("enter the password correctly");
-                }
-                else{
+//                if (password!=cpassword){
+//                    editTextTextPassword5.setError("enter the password correctly");
+//                }
+//                else{
 
-                }
+                    firebaseDatabase = FirebaseDatabase.getInstance();
+                    reference = firebaseDatabase.getReference("data");
+
+                    String name_s = editTextTextPersonName.getText().toString();
+                    String phone_S = editTextPhone2.getText().toString();
+                    String email_s = editTextTextEmailAddress3.getText().toString();
+                    String password_s = editTextTextPassword4.getText().toString();
+
+                    storingdata storingdatas = new storingdata(name_s, phone_S, email_s, password_s);
+                    reference.child(name_s).setValue(storingdatas);
+
+                    Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), login.class);
+                    startActivity(intent);
+
             }
         });
     }

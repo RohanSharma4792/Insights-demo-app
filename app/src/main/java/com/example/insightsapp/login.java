@@ -1,5 +1,6 @@
 package com.example.insightsapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,10 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class login extends AppCompatActivity {
-    TextView textview2;
     EditText editTextTextEmailAddress;
     EditText editTextTextPassword;
     Button button;
@@ -41,6 +49,51 @@ public class login extends AppCompatActivity {
                 if (password.isEmpty()){
                     editTextTextPassword.setError("Enter the password");
                 }
+
+                final String named = editTextTextEmailAddress.getText().toString();
+                final String passed=editTextTextPassword.getText().toString();
+
+
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference = firebaseDatabase.getReference("data");
+
+                Query checking = databaseReference.orderByChild("name").equalTo(named);
+
+                checking.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        if (snapshot.exists()){
+                             editTextTextEmailAddress.setError(null);
+                             String pass = snapshot.child(named).child("password").getValue(String.class);
+                            assert pass != null;
+                            if (pass.equals(passed)){
+                                 editTextTextEmailAddress.setError(null);
+
+                                 Toast.makeText(getApplicationContext(), "login successful", Toast.LENGTH_SHORT).show();
+                                 Intent intent = new Intent(getApplicationContext(), dashboard.class);
+                                 startActivity(intent);
+                                 finish();
+                             }
+                             else{
+                                 editTextTextPassword.setError("wrong password");
+                             }
+
+
+                        }
+                        else{
+                            editTextTextEmailAddress.setError("invalid email");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
 
             }
         });
