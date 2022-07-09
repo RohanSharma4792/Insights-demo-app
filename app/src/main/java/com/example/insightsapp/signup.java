@@ -1,5 +1,6 @@
 package com.example.insightsapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,8 +12,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 
 public class signup extends AppCompatActivity {
@@ -22,8 +29,10 @@ public class signup extends AppCompatActivity {
     EditText editTextTextPassword4;
     EditText editTextTextPassword5;
     Button register;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference reference;
+
+
+
+    FirebaseAuth firebaseAuth;
 
 
     @Override
@@ -36,7 +45,7 @@ public class signup extends AppCompatActivity {
         editTextTextPassword4 = findViewById(R.id.editTextTextPassword4);
         editTextTextPassword5 = findViewById(R.id.editTextTextPassword5);
         register = findViewById(R.id.register);
-
+        firebaseAuth = FirebaseAuth.getInstance();
 
 
 
@@ -64,23 +73,30 @@ public class signup extends AppCompatActivity {
                                     if (!cpassword.isEmpty()){
                                         editTextTextPassword5.setError(null);
 
-                                        firebaseDatabase = FirebaseDatabase.getInstance();
-                                        reference = firebaseDatabase.getReference("data");
 
-                                        String name_s = editTextTextPersonName.getText().toString();
-                                        String phone_S = editTextPhone2.getText().toString();
-                                        String email_s = editTextTextEmailAddress3.getText().toString();
-                                        String password_s = editTextTextPassword4.getText().toString();
+                                        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                            @Override
+                                            public void onSuccess(AuthResult authResult) {
+                                                HashMap<String, Object> data = new HashMap<>();
+                                                data.put("Name", name);
+                                                data.put("Email", email);
+                                                data.put("Password", password);
+                                                data.put("Phone Number", phone);
+                                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Data");
+                                                databaseReference.child(name).setValue(data);
 
-                                        storingdata storingdatas = new storingdata(name_s, phone_S, email_s, password_s);
-                                        reference.child(name_s).setValue(storingdatas);
+                                                Intent intent = new Intent(signup.this, dashboard.class);
+                                                Toast.makeText(signup.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                                                startActivity(intent);
+                                                finish();
 
-                                        Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), otp.class);
-                                        startActivity(intent);
-
-
-
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(signup.this, "Failure", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
 
                                     }else {
                                         editTextTextPassword5.setError("confirm your password");
@@ -107,10 +123,7 @@ public class signup extends AppCompatActivity {
 
 
 
-//                if (password!=cpassword){
-//                    editTextTextPassword5.setError("enter the password correctly");
-//                }
-//                else{
+//
 
 
 

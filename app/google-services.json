@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "82753506669",
+    "firebase_url": "https://insights-a1518-default-rtdb.firebaseio.com",
     "project_id": "insights-a1518",
     "storage_bucket": "insights-a1518.appspot.com"
   },
