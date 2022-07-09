@@ -14,12 +14,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 
 public class signup extends AppCompatActivity {
@@ -82,13 +87,42 @@ public class signup extends AppCompatActivity {
                                                 data.put("Email", email);
                                                 data.put("Password", password);
                                                 data.put("Phone Number", phone);
+
                                                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Data");
                                                 databaseReference.child(name).setValue(data);
 
-                                                Intent intent = new Intent(signup.this, dashboard.class);
-                                                Toast.makeText(signup.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                                                startActivity(intent);
-                                                finish();
+                                                PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                                                        "+91" + editTextPhone2.getText().toString(),
+                                                        5,
+                                                        TimeUnit.SECONDS,
+                                                        signup.this,
+                                                        new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                                                            @Override
+                                                            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+
+                                                            }
+
+                                                            @Override
+                                                            public void onVerificationFailed(@NonNull FirebaseException e) {
+                                                                Toast.makeText(signup.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                            }
+
+                                                            @Override
+                                                            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                                                super.onCodeSent(s, forceResendingToken);
+                                                                Intent intent = new Intent(signup.this, otp.class);
+                                                                Toast.makeText(signup.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                                                                intent.putExtra("phone", editTextPhone2.getText().toString());
+                                                                intent.putExtra("s", s);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            }
+                                                        }
+                                                );
+
+
+
+
 
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
