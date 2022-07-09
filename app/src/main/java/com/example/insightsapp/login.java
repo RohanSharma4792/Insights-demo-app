@@ -30,8 +30,8 @@ public class login extends AppCompatActivity {
     EditText editTextTextEmailAddress;
     EditText editTextTextPassword;
     Button button;
-    TextView textview3;
     TextView signtext;
+    TextView forgot;
     FirebaseAuth firebaseAuth;
 
     @Override
@@ -48,12 +48,21 @@ public class login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         button = findViewById(R.id.button);
-        textview3 = findViewById(R.id.textView3);
         signtext = findViewById(R.id.signup);
         editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress);
         editTextTextPassword = findViewById(R.id.editTextTextPassword);
+        forgot = findViewById(R.id.textView3);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(login.this, forget.class);
+                startActivity(intent);
+            }
+        });
 
 
         signtext.setOnClickListener(new View.OnClickListener() {
