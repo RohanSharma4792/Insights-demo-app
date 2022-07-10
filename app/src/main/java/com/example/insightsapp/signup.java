@@ -42,6 +42,7 @@ public class signup extends AppCompatActivity {
     EditText editTextTextEmailAddress3;
     EditText editTextTextPassword4;
     EditText editTextTextPassword5;
+    TextView back;
     Button register;
     ImageView image;
     FirebaseAuth firebaseAuth;
@@ -58,8 +59,18 @@ public class signup extends AppCompatActivity {
         editTextTextPassword5 = findViewById(R.id.editTextTextPassword5);
         image = findViewById(R.id.imageView2);
         register = findViewById(R.id.register);
+        back = findViewById(R.id.textView12);
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(signup.this, login.class);
+                startActivity(intent);
+            }
+        });
 
 
 
