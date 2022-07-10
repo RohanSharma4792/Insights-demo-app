@@ -53,6 +53,7 @@ public class otp extends AppCompatActivity {
                                         Intent i = new Intent(otp.this, dashboard.class);
                                         Toast.makeText(otp.this, "otp verified", Toast.LENGTH_SHORT).show();
                                         startActivity(i);
+                                        finish();
                                     } else {
                                         Toast.makeText(otp.this, "enter correct otp", Toast.LENGTH_SHORT).show();
                                     }
