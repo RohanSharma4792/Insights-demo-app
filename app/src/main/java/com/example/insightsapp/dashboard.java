@@ -32,6 +32,8 @@ public class dashboard extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,14 +67,16 @@ public class dashboard extends AppCompatActivity {
                         String ctr = snapshot.getValue().toString();
 
                         name.setText(atr);
-                        email.setText(btr);
                         mobile.setText(ctr);
+                        email.setText(btr);
+                    }
 
 
 
 
                     }
-                }
+
+
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
