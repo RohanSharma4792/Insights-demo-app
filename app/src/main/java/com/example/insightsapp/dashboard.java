@@ -34,6 +34,7 @@ public class dashboard extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,6 @@ public class dashboard extends AppCompatActivity {
         name = findViewById(R.id.textView9);
         email = findViewById(R.id.textView10);
         mobile = findViewById(R.id.textView11);
-
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,14 +57,16 @@ public class dashboard extends AppCompatActivity {
                 finish();
             }
         });
+
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Data");
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()){
-                        String atr = snapshot.getValue().toString();
-                        String btr = snapshot.getValue().toString();
-                        String ctr = snapshot.getValue().toString();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        String atr = dataSnapshot.getValue().toString();
+                        String btr = dataSnapshot.getValue().toString();
+                        String ctr = dataSnapshot.getValue().toString();
 
                         name.setText(atr);
                         mobile.setText(ctr);
